@@ -38,7 +38,7 @@ os.system("apt-get install -y handbrake-cli")
 # Configuration for conversion
 RESOLUTION = "360p"
 Encoder = "x264"
-Encoder_Preset = "ultrafast"
+Encoder_Preset = "slow"
 CQ = 30
 BURN_SUBTITLES = False
 Additional_Flags = ""
