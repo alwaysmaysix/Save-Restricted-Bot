@@ -36,7 +36,7 @@ os.system("apt-get update")
 os.system("apt-get install -y handbrake-cli")
 
 # Configuration for conversion
-RESOLUTION = "360p"
+RESOLUTION = "480p"
 Encoder = "x265"
 Encoder_Preset = "ultrafast"
 CQ = 30
