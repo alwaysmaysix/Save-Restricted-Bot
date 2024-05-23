@@ -36,9 +36,9 @@ os.system("apt-get update")
 os.system("apt-get install -y handbrake-cli")
 
 # Configuration for conversion
-RESOLUTION = "480p"
-Encoder = "x264"
-Encoder_Preset = "medium"
+RESOLUTION = "460p"
+Encoder = "x265"
+Encoder_Preset = "ultrafast"
 CQ = 28
 BURN_SUBTITLES = False
 Additional_Flags = ""
@@ -50,7 +50,7 @@ def set_resolution():
 
 def add_flags():
     width, height = set_resolution()
-    flags = f"--encoder x264 --all-audio -s '0,1,2,3' --cfr --optimize --quality=28 --width={width} --height={height} --format=mp4 --encoder-preset=fast --vb 700"
+    flags = f"--encoder x265 --all-audio -s '0,1,2,3' --cfr --optimize --quality=28 --width={width} --height={height} --format=mp4 --encoder-preset=ultrafast --vb 700"
     if BURN_SUBTITLES:
         flags += " -s '1' --subtitle-burned '1'"
     if Additional_Flags:
