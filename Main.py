@@ -39,7 +39,7 @@ os.system("apt-get install -y handbrake-cli")
 RESOLUTION = "360p"
 Encoder = "x264"
 Encoder_Preset = "slow"
-CQ = 30
+CQ = 23
 BURN_SUBTITLES = False
 Additional_Flags = ""
 
