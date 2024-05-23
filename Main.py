@@ -54,10 +54,12 @@ def add_flags():
     if Additional_Flags:
         flags += f" {Additional_Flags}"
     return flags
+def extract_thumbnail(video_path, thumb_path, time_pos='00:00:01'):
+    os.system(f"ffmpeg -ss {time_pos} -i '{video_path}' -frames:v 1 '{thumb_path}'")
 
 def convert_video(source, destination):
     flags = add_flags()
-    filename = f"[HANDY] {os.path.basename(source).rsplit('.', 1)[0]} [360p] [x265].mp4"
+    filename = f"[HANDY] {os.path.basename(source).rsplit('.', 1)[0]} [480p] [x264].mp4"
     output_path = os.path.join("/content/temp/HandbrakeTemp", filename)
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     os.system(f"HandBrakeCLI -i '{source}' -o '{output_path}' {flags}")
@@ -66,8 +68,14 @@ def convert_video(source, destination):
         os.makedirs(destination, exist_ok=True)
         dest_path = os.path.join(destination, filename)
         os.rename(output_path, dest_path)
-        return dest_path
-    return None
+
+        # Extract thumbnail
+        thumbnail_path = dest_path.rsplit('.', 1)[0] + '.jpg'
+        extract_thumbnail(dest_path, thumbnail_path)
+
+        return dest_path, thumbnail_path
+    return None, None
+
 
 # Download status
 def downstatus(statusfile, message):
@@ -124,19 +132,22 @@ def handle_private(message, chatid, msgid):
 
     # Convert video
     destination = "/content/temp/HandbrakeOutput"
-    converted_path = convert_video(file, destination)
+    converted_path, thumbnail_path = convert_video(file, destination)
     os.remove(file)  # Remove the original downloaded file
 
     if converted_path:
         if "Document" == msg_type:
             bot.send_document(message.chat.id, converted_path, caption=msg.caption, caption_entities=msg.caption_entities, reply_to_message_id=message.id, progress=progress, progress_args=[message, "up"])
         elif "Video" == msg_type:
-            bot.send_video(message.chat.id, converted_path, caption=msg.caption, caption_entities=msg.caption_entities, reply_to_message_id=message.id, progress=progress, progress_args=[message, "up"])
+            bot.send_video(message.chat.id, converted_path, thumb=thumbnail_path, caption=msg.caption, caption_entities=msg.caption_entities, reply_to_message_id=message.id, progress=progress, progress_args=[message, "up"])
         os.remove(converted_path)
+        if thumbnail_path:
+            os.remove(thumbnail_path)
     
     if os.path.exists(f'{message.id}upstatus.txt'):
         os.remove(f'{message.id}upstatus.txt')
     bot.delete_messages(message.chat.id, [smsg.id])
+
 
 # Get the type of message
 def get_message_type(msg):
