@@ -1,7 +1,3 @@
-!wget -qq https://github.com/vot/ffbinaries-prebuilt/releases/download/v4.2.1/ffmpeg-4.2.1-linux-64.zip
-!rm -f ffmpeg-4.2.1-linux-64.zip
-!add-apt-repository ppa:stebbins/handbrake-releases -y
-!apt-get install -y handbrake-cli
 
 import os
 import time
