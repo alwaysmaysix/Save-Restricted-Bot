@@ -44,7 +44,7 @@ BURN_SUBTITLES = False
 Additional_Flags = ""
 
 def set_resolution():
-    return "480", "360"
+    return "854", "480" 
 
 def add_flags():
     width, height = set_resolution()
