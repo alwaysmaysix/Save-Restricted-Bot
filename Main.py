@@ -36,7 +36,7 @@ os.system("apt-get update")
 os.system("apt-get install -y handbrake-cli")
 
 # Configuration for conversion
-RESOLUTION = "360p"
+RESOLUTION = "480p"
 Encoder = "x264"
 Encoder_Preset = "medium"
 CQ = 28
@@ -44,17 +44,19 @@ BURN_SUBTITLES = False
 Additional_Flags = ""
 
 def set_resolution():
-    return "640", "360"  # 360p resolution
+    return "854", "480"  # 480p resolution
+
  
 
 def add_flags():
     width, height = set_resolution()
-    flags = f"--encoder x264 --all-audio -s '0,1,2,3' --cfr --optimize --quality=28 --width={width} --height={height} --format=mp4 --encoder-preset=fast --vb 500"
+    flags = f"--encoder x264 --all-audio -s '0,1,2,3' --cfr --optimize --quality=28 --width={width} --height={height} --format=mp4 --encoder-preset=fast --vb 700"
     if BURN_SUBTITLES:
         flags += " -s '1' --subtitle-burned '1'"
     if Additional_Flags:
         flags += f" {Additional_Flags}"
     return flags
+
 
 def extract_thumbnail(video_path, thumb_path, time_pos='00:00:01'):
     os.system(f"ffmpeg -ss {time_pos} -i '{video_path}' -frames:v 1 '{thumb_path}'")
