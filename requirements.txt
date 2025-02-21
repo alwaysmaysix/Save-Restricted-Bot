@@ -1,4 +1,4 @@
-git+https://github.com/Masterolic/pyrogram.git
+git+https://github.com/cavallium/faster-pyrogram.git
 asyncio
 tgcrypto
 flask
